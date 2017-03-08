@@ -15,7 +15,7 @@ public class TreatmentHaveANewTileDeclareMahjong extends
 
     protected TreatmentHaveANewTileDeclareMahjong(final IPlayer player, final IRound round) {
         super(player, round);
-        scoring = new ScoringMcr(JavaConversions.asIterable(round.getVisibleTiles()), player.getTiles());
+        scoring = new ScoringMcr(JavaConversions.asScalaIterable(round.getVisibleTiles()), player.getTiles());
         System.out.println(scoring);
     }
 

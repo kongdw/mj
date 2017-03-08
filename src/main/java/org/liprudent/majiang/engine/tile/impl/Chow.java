@@ -36,7 +36,7 @@ import org.liprudent.majiang.engine.tile.ITile;
 import org.liprudent.majiang.engine.tile.ITileSuit;
 
 /**
- * 吃牌
+ * 判断顺子 1,2,3筒  2,3,4筒
  * @author David Kong
  */
 public class Chow {
@@ -69,7 +69,7 @@ public class Chow {
         Collection<Collection<ITile>> ret = new HashSet<Collection<ITile>>();
         for (ITile t2 : col2) {
             for (ITile t3 : col3) {
-                ret.add(Arrays.asList((ITile) start, t2, t3));
+                ret.add(Arrays.asList(start, t2, t3));
             }
         }
         return ret;

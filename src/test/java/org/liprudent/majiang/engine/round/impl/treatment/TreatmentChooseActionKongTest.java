@@ -149,7 +149,7 @@ public class TreatmentChooseActionKongTest {
 	// // the Kong is in opened hand
 	// final Collection<ITile> theKong = player.getOpenedHand().iterator()
 	// .next();
-	// assertTrue(TileComputer.isPong(theKong));
+	// assertTrue(TileComputer.isPung(theKong));
 	// assertTrue(CollectionUtils.isEqualCollection(TestConstructHelper
 	// .set("9s0,9s1,9s2,9s3"), theKong));
 	// // discarded tile is not anymore in discarded set

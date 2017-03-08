@@ -13,51 +13,51 @@ import org.liprudent.majiang.engine.tile.ITile;
 import scala.collection.JavaConversions;
 
 public class TreatmentChooseActionMahjong extends
-		AbstractTreatmentChooseActionEat implements IEatAction, IMahjongAction {
-	final ITile lastDiscarded;
-	private Scoring scoring; 
+        AbstractTreatmentChooseActionEat implements IEatAction, IMahjongAction {
+    final ITile lastDiscarded;
+    private Scoring scoring;
 
-	protected TreatmentChooseActionMahjong(final IPlayer player,
-			final IRound round) {
-		super(player, round);
-		lastDiscarded = round.getTileSet().lastDiscarded();
-	}
+    protected TreatmentChooseActionMahjong(final IPlayer player,
+                                           final IRound round) {
+        super(player, round);
+        lastDiscarded = round.getTileSet().lastDiscarded();
+    }
 
-	@Override
-	public void changeStates() {
-		player.setState(State.WAIT_OTHERS_ACTION);
-	}
+    @Override
+    public void changeStates() {
+        player.setState(State.WAIT_OTHERS_ACTION);
+    }
 
-	@Override
-	public void doTreatment() {
-	}
+    @Override
+    public void doTreatment() {
+    }
 
-	@Override
-	public boolean specificValid() {
-		final ScoringMcr scoring = new ScoringMcr(JavaConversions
-				.asIterable(round.getVisibleTiles()), player.getTiles());
-		final boolean isMahjong = scoring.isMahjong();
-		if(isMahjong) this.scoring = scoring;
-		return isMahjong;
-	}
+    @Override
+    public boolean specificValid() {
+        final ScoringMcr scoring = new ScoringMcr(JavaConversions
+                .asScalaIterable(round.getVisibleTiles()), player.getTiles());
+        final boolean isMahjong = scoring.isMahjong();
+        if (isMahjong) this.scoring = scoring;
+        return isMahjong;
+    }
 
-	@Override
-	public EatAction getEatAction() {
-		return EatAction.MAHJONG;
-	}
+    @Override
+    public EatAction getEatAction() {
+        return EatAction.MAHJONG;
+    }
 
-	@Override
-	protected SortedSet<ITile> ownedTiles() {
-		return player.getTiles().getConcealedHand();
-	}
+    @Override
+    protected SortedSet<ITile> ownedTiles() {
+        return player.getTiles().getConcealedHand();
+    }
 
-	@Override
-	public boolean immediateEnd() {
-		return false;
-	}
+    @Override
+    public boolean immediateEnd() {
+        return false;
+    }
 
-	@Override
-	public Scoring getScoring() {
-		return scoring;
-	}
+    @Override
+    public Scoring getScoring() {
+        return scoring;
+    }
 }

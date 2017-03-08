@@ -38,7 +38,7 @@ public class TreatmentFactoryTest {
 		Assert.assertEquals(TreatmentHaveANewTileDeclareOpenKong.class,
 				treatment(round, Action.EXPOSED_KONG));
 		Assert.assertEquals(TreatmentHaveANewTileDeclareHiddenKong.class,
-				treatment(round, Action.CONCEALED_KONG));
+				treatment(round, Action.EXPOSED_KONG));
 
 		Assert.assertEquals(TreatmentChooseActionChow.class, treatment(round,
 				Action.CHOW));
@@ -68,7 +68,7 @@ public class TreatmentFactoryTest {
 				.getInstance(round.getCurrentPlayer(), Action.PONG, round)
 				.getClass());
 		Assert.assertEquals(TreatmentChooseActionKong.class, TreatmentFactory
-				.getInstance(round.getCurrentPlayer(), Action.KONG, round)
+				.getInstance(round.getCurrentPlayer(), Action.PONG, round)
 				.getClass());
 	}
 

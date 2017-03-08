@@ -23,17 +23,19 @@
  */
 package org.liprudent.majiang.engine.game.impl;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
+
+import java.util.List;
+
 import org.apache.commons.lang.NotImplementedException;
 import org.junit.Test;
 import org.liprudent.majiang.engine.event.IEvent;
 import org.liprudent.majiang.engine.event.IEventLogger;
 import org.liprudent.majiang.engine.event.impl.EventLogger;
 import org.liprudent.majiang.engine.player.IPlayer.Wind;
-
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
 
 public class EventLoggerTest {
 

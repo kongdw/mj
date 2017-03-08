@@ -148,12 +148,12 @@ abstract public class TileComputer {
      * @param hiddenHand
      * @return true if mahjong is really a mahjong
      */
-    public static final boolean isMahjong(final SortedSet<ITile> hand,
-                                          final Collection<SortedSet<ITile>> openedHand,
-                                          final Collection<SortedSet<ITile>> hiddenHand) {
-        // count the number of chow, pung, kong
+    public static boolean isMahjong(final SortedSet<ITile> hand,
+                                    final Collection<SortedSet<ITile>> openedHand,
+                                    final Collection<SortedSet<ITile>> hiddenHand) {
+        // count the number of chow, pong, kong
         final int count = hiddenHand.size() + openedHand.size();
-        // A mahjong is 4 kong,pung,chow + a pair
+        // A mahjong is 4 kong,pong,chow + a pair
         // mustFindInHand is the number of kong,pung,chow we must find in hand
         final int mustFindInHand = 4 - count;
         TileComputer.LOG.debug("Must find in hand : " + mustFindInHand);

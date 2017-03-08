@@ -1,6 +1,7 @@
 package org.liprudent.majiang.engine.tile.impl;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.Collection;
@@ -20,27 +21,22 @@ public class TileComputerJavaTest {
 
     @Test
     public void testIsKong() {
-        System.out.println("isKong");
         final Collection<ITile> kong = TestConstructHelper.kong(1);
-        final boolean expResult = true;
-        final boolean result = TileComputer.isKong(kong);
-        assertEquals(expResult, result);
+        assertTrue(TileComputer.isKong(kong));
     }
 
     @Test
     public void testIsKong4Tiles() {
-        System.out.println("isKong");
         final Collection<ITile> kong = TestConstructHelper.kong(1);
         kong.remove(kong.iterator().next());
-        final boolean expResult = false;
-        final boolean result = TileComputer.isKong(kong);
-        assertEquals(expResult, result);
+        assertFalse(TileComputer.isKong(kong));
     }
 
     @Test
     public void isMahjong() {
-        assertMahjong("1s0,2s0,3s0,4s0,5s0,6s0,7s0,8s0,9s0,1b0,2b0,3b0,4b0,4b1");
-        assertMahjong("1s0,2s1,3s1,4s1,5s1,6s1,7s1,8s1,9s1,1b1,2b1,3b1,4b2,4b3");
+//        assertMahjong("1s0,2s0,3s0,4s0,5s0,6s0,7s0,8s0,9s0,1b0,2b0,3b0,4b0,4b1");
+//        assertMahjong("1s0,2s1,3s1,4s1,5s1,6s1,7s1,8s1,9s1,1b1,2b1,3b1,4b2,4b3");
+        assertMahjong("b1,c1,d1,b9,c9,d9,Wn,Ws,We,Ww,Dr,Dg,Dw,Dw");
     }
 
     private void assertMahjong(final String concealedHand) {

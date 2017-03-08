@@ -43,7 +43,7 @@ class StringToTile(_s : String) {
 			s match {
 				case "b" => new TileSuitBamboo(i,v)
 				case "c" => new TileSuitCharacter(i,v)
-				case "s" => new TileSuitStone(i,v)
+				case "s" => new TileSuitDot(i,v)
 			}
 		}
 			
