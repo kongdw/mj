@@ -1,26 +1,3 @@
-/**
- * Majiang is a library that implements Mahjong game rules.
- * <p>
- * Copyright 2009 Prudent Jérome
- * <p>
- * This file is part of Majiang.
- * <p>
- * Majiang is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- * <p>
- * Majiang is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
- * <p>
- * You should have received a copy of the GNU General Public License
- * along with Foobar.  If not, see <http://www.gnu.org/licenses/>.
- * <p>
- * <p>
- * You can contact me at jprudent@gmail.com
- */
 package org.liprudent.majiang.engine.tile.impl;
 
 import java.util.ArrayList;
@@ -50,8 +27,7 @@ abstract public class TileComputer {
     static Collection<Collection<ITile>> findMahjong(final SortedSet<ITile> hand, final int mustFindInHand) {
         final Collection<Collection<ITile>> allCombis = TileComputer.findAllCombis(hand);
         LOG.debug("allCombis:" + allCombis.size());
-        return TileComputer.mahjong(allCombis, mustFindInHand,
-                new HashSet<Collection<ITile>>());
+        return TileComputer.mahjong(allCombis, mustFindInHand, new HashSet<Collection<ITile>>());
     }
 
     /**
@@ -93,22 +69,17 @@ abstract public class TileComputer {
             return null;
         }
 
-        final Collection<Collection<ITile>> clonedAllCombis = TileComputer
-                .cloneAllCombis(allCombis);
-        final Collection<Collection<ITile>> clonedChoosedCombis = TileComputer
-                .cloneAllCombis(choosedCombis);
+        final Collection<Collection<ITile>> clonedAllCombis = TileComputer.cloneAllCombis(allCombis);
+        final Collection<Collection<ITile>> clonedChoosedCombis = TileComputer.cloneAllCombis(choosedCombis);
         for (final Collection<ITile> combi : clonedAllCombis) {
             if (!TileComputer.isPair(combi)) {
                 TileComputer.LOG.debug("current combi = " + combi);
-                final Collection<Collection<ITile>> newAllCombis = TileComputer
-                        .deleteIntersections(combi, clonedAllCombis);
+                final Collection<Collection<ITile>> newAllCombis = TileComputer.deleteIntersections(combi, clonedAllCombis);
                 TileComputer.LOG.debug("new all combis = " + newAllCombis);
                 clonedChoosedCombis.add(combi);
                 newAllCombis.remove(combi);
                 // recursive call to itself
-                final Collection<Collection<ITile>> winningHand = TileComputer
-                        .mahjong(newAllCombis, mustFindInHand - 1,
-                                clonedChoosedCombis);
+                final Collection<Collection<ITile>> winningHand = TileComputer.mahjong(newAllCombis, mustFindInHand - 1, clonedChoosedCombis);
                 if (winningHand != null) {
                     return winningHand;
                 }
@@ -207,8 +178,7 @@ abstract public class TileComputer {
         return CollectionUtils.intersection(hand, find).size() >= nbToFind;
     }
 
-    static final boolean isSimilar(final Collection<ITile> tiles,
-                                   final int nbSimilar) {
+    static final boolean isSimilar(final Collection<ITile> tiles, final int nbSimilar) {
         boolean isSimilar = tiles != null && tiles.size() == nbSimilar;
         if (!isSimilar) {
             return false;

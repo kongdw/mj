@@ -9,7 +9,7 @@ import org.liprudent.majiang.engine.round.impl.treatment.ITreatment;
 /**
  * A turn begin with a player having 14 tiles, throwing. Others can pass or eat.
  * That'all.
- * 
+ * 回合
  * @author jerome
  * 
  */

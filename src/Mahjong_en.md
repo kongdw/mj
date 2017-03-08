@@ -38,3 +38,6 @@
 - 数番	Scoring	　
 - 番数	Points
 
+- 一轮 round 
+- 回合 turns
+
