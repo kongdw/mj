@@ -55,8 +55,7 @@ public class TreatmentChooseActionChow extends AbstractTreatmentChooseActionEat
 	 *            Tiles of the suit owned by player
 	 * @param round
 	 */
-	protected TreatmentChooseActionChow(final IPlayer player,
-			final IRound round, final Collection<ITile> partialSuit) {
+	protected TreatmentChooseActionChow(final IPlayer player, final IRound round, final Collection<ITile> partialSuit) {
 		super(player, round);
 		current = round.getCurrentPlayer();
 		suit = fullSuit(partialSuit, round);
@@ -69,8 +68,7 @@ public class TreatmentChooseActionChow extends AbstractTreatmentChooseActionEat
 	 * @param round
 	 * @return partialSuit + last discarded tile
 	 */
-	private Collection<ITile> fullSuit(final Collection<ITile> partialSuit,
-			final IRound round) {
+	private Collection<ITile> fullSuit(final Collection<ITile> partialSuit, final IRound round) {
 		final Collection<ITile> ret = new HashSet<ITile>();
 		ret.addAll(partialSuit);
 		ret.add(round.getTileSet().lastDiscarded());

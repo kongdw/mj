@@ -31,8 +31,10 @@ abstract public class TileComputer {
     }
 
     /**
+     * 查询所有可用组合
+     *
      * @param hand
-     * @return all Kong, Pung, Chow
+     * @return all Kong, Pong, Chow
      */
     private static Collection<Collection<ITile>> findAllCombis(final SortedSet<ITile> hand) {
         final Collection<Collection<ITile>> ret = new HashSet<Collection<ITile>>();
@@ -55,15 +57,14 @@ abstract public class TileComputer {
                                                          final int mustFindInHand,
                                                          final Collection<Collection<ITile>> choosedCombis) {
 
-        TileComputer.LOG.debug("allCombis:" + allCombis);
-        TileComputer.LOG.debug("must find in hand :" + mustFindInHand);
-        TileComputer.LOG.debug("choosed combis" + choosedCombis);
+        TileComputer.LOG.debug("allCombis:{}", allCombis);
+        TileComputer.LOG.debug("must find in hand :{}", mustFindInHand);
+        TileComputer.LOG.debug("choosed combis {}", choosedCombis);
 
-        // We have a mahjong in this case:
-        if (mustFindInHand == 0 && allCombis.size() == 1
-                && TileComputer.isPair(allCombis.iterator().next())) {
+        // 单钓将
+        if (mustFindInHand == 0 && allCombis.size() == 1 && TileComputer.isPair(allCombis.iterator().next())) {
             choosedCombis.add(allCombis.iterator().next());
-            TileComputer.LOG.debug("!!! this is mahjong:" + choosedCombis);
+            TileComputer.LOG.debug("!!! this is mahjong:{}", choosedCombis);
             return choosedCombis;
         } else if (mustFindInHand == 0) {
             return null;
@@ -73,9 +74,9 @@ abstract public class TileComputer {
         final Collection<Collection<ITile>> clonedChoosedCombis = TileComputer.cloneAllCombis(choosedCombis);
         for (final Collection<ITile> combi : clonedAllCombis) {
             if (!TileComputer.isPair(combi)) {
-                TileComputer.LOG.debug("current combi = " + combi);
+                TileComputer.LOG.debug("current combi = {}", combi);
                 final Collection<Collection<ITile>> newAllCombis = TileComputer.deleteIntersections(combi, clonedAllCombis);
-                TileComputer.LOG.debug("new all combis = " + newAllCombis);
+                TileComputer.LOG.debug("new all combis = {}", newAllCombis);
                 clonedChoosedCombis.add(combi);
                 newAllCombis.remove(combi);
                 // recursive call to itself
@@ -170,7 +171,8 @@ abstract public class TileComputer {
      * @return true if there are at least "nbToFind" tiles "find" in "hand"
      */
     public static final boolean haveIn(final Collection<ITile> hand,
-                                       final Collection<ITile> find, final int nbToFind) {
+                                       final Collection<ITile> find,
+                                       final int nbToFind) {
         if (nbToFind < 0) {
             throw new IllegalArgumentException("Must find at least 0 tile");
         }
@@ -178,7 +180,14 @@ abstract public class TileComputer {
         return CollectionUtils.intersection(hand, find).size() >= nbToFind;
     }
 
-    static final boolean isSimilar(final Collection<ITile> tiles, final int nbSimilar) {
+    /**
+     * 判断麻将牌是否由相同牌组成，并且数量满足nbSimilar指定的个数
+     *
+     * @param tiles     要判断的牌集合
+     * @param nbSimilar 判断相同的个数
+     * @return false 不符合，true 符合
+     */
+    static boolean isSimilar(final Collection<ITile> tiles, final int nbSimilar) {
         boolean isSimilar = tiles != null && tiles.size() == nbSimilar;
         if (!isSimilar) {
             return false;
@@ -194,8 +203,8 @@ abstract public class TileComputer {
     /**
      * This method seems complex: TODO refactoring: use treeset?
      */
-    private static final boolean isSuit(final Collection<ITile> tiles,
-                                        final int suitLength) {
+    private static boolean isSuit(final Collection<ITile> tiles,
+                                  final int suitLength) {
         final boolean isSuit = tiles != null && tiles.size() == suitLength;
         if (!isSuit) {
             return false;

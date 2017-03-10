@@ -41,7 +41,7 @@
 
         <root level="debug" includeLocation="true">
             <appender-ref ref="Console"/>
-            <appender-ref ref="ErrorLog"/>
+            <!--<appender-ref ref="ErrorLog"/>-->
         </root>
     </Loggers>
 </Configuration>

@@ -48,8 +48,7 @@ public abstract class AbstractTreatmentHaveANewTile extends AbstractTreatment
 	@Override
 	public final boolean valid() {
 		final boolean isCurrent = current == player;
-		final boolean currentPlayerStateValid = player.getState().equals(
-				HAVE_A_NEW_TILE);
+		final boolean currentPlayerStateValid = player.getState().equals(HAVE_A_NEW_TILE);
 		// Check other players state
 		final boolean otherPlayersStateValid = othersAreWaitTileThrowed();
 		final boolean valid = isCurrent && currentPlayerStateValid && otherPlayersStateValid;

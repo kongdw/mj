@@ -128,8 +128,7 @@ public abstract class TestConstructHelper {
 	}
 
 	private static IGame createGame() {
-		return new Game(GameFactory.buildPlayersSet(Sets.newHashSet(PLAYER_1,
-				PLAYER_2, PLAYER_3, PLAYER_4)));
+		return new Game(GameFactory.buildPlayersSet(Sets.newHashSet(PLAYER_1,PLAYER_2, PLAYER_3, PLAYER_4)));
 	}
 
 	public static List<? extends IPlayer> construct4Players() {
