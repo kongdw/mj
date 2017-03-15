@@ -21,10 +21,8 @@
  *
  * You can contact me at jprudent@gmail.com
  */
-package org.liprudent.majiang.engine.tile.impl;
+package org.liprudent.majiang.engine.tile.impl
 
-import groovy.util.GroovyTestCase
-import org.liprudent.majiang.engine.tile.impl.*;
 import org.liprudent.majiang.engine.tile.*;
 
 class TileComputerTest extends GroovyTestCase {
@@ -52,7 +50,7 @@ class TileComputerTest extends GroovyTestCase {
             hand << new TileHonorEast(it) << new TileSuitBamboo(it,1)
         }
         hand << new TileSuitBamboo(0,2)
-        assert ! TileComputer.isPong(hand)
+        assert ! TileComputer.isTriplet(hand)
     }
     
     void testFindPungFalse2() {
@@ -60,7 +58,7 @@ class TileComputerTest extends GroovyTestCase {
         [0,1,2].each{
             hand << new TileHonorEast(it) << new TileSuitBamboo(it,1)
         }
-        assert ! TileComputer.isPong(hand)
+        assert ! TileComputer.isTriplet(hand)
     }
 
     void testFindPungTrue() {
@@ -68,7 +66,7 @@ class TileComputerTest extends GroovyTestCase {
         [0,1,2].each{
             hand << new TileHonorEast(it) 
         }
-        assert TileComputer.isPong(hand)
+        assert TileComputer.isTriplet(hand)
     }
 
     void testIsSimilarFalseBecauseNull() {
@@ -80,7 +78,7 @@ class TileComputerTest extends GroovyTestCase {
         [0,2,1].each{
             hand << new TileSuitBamboo(it,it+1) 
         }
-        assert TileComputer.isSuit(hand,3)
+        assert TileComputer.isSequence(hand,3)
     }
 
     void testSuitFalseBecauseHonor() {
@@ -88,7 +86,7 @@ class TileComputerTest extends GroovyTestCase {
         [0,1,2].each{
             hand << new TileHonorEast(it) 
         }
-        assert ! TileComputer.isSuit(hand,3)
+        assert ! TileComputer.isSequence(hand,3)
     }
 
     void testSuitFalseBecauseNotASuit() {
@@ -96,7 +94,7 @@ class TileComputerTest extends GroovyTestCase {
         [0,1,3].each{
             hand << new TileSuitBamboo(it,it+1) 
         }
-        assert ! TileComputer.isSuit(hand,3)
+        assert ! TileComputer.isSequence(hand,3)
     }
 
     void testSuitFalseBecauseLengthNotOk() {
@@ -104,22 +102,22 @@ class TileComputerTest extends GroovyTestCase {
         [0,1,2,3].each{
             hand << new TileSuitBamboo(it,it+1) 
         }
-        assert ! TileComputer.isSuit(hand,3)
+        assert ! TileComputer.isSequence(hand,3)
     }
 
     void testSuitFalseBecauseTilesAreNotTheSameKind() {
         def hand = [] << new TileHonorEast(3) << new TileSuitBamboo(0,1) << new TileSuitBamboo(1,2)
-        assert ! TileComputer.isSuit(hand,3)
+        assert ! TileComputer.isSequence(hand,3)
         Collections.reverse(hand)
-        assert ! TileComputer.isSuit(hand,3)
+        assert ! TileComputer.isSequence(hand,3)
     }
 
     void testSuitFalseBecauseNull() {
-        assert ! TileComputer.isSuit(null,3)
+        assert ! TileComputer.isSequence(null,3)
     }
 
     void testIsMahjong1() {
-        def hand = []
+        def hand = [] as SortedSet
         [0,1,2].each{
             hand << new TileHonorEast(it) << new TileHonorRed(it) << new TileHonorGreen(it)
             //1,2,3 bamboo
@@ -131,14 +129,14 @@ class TileComputerTest extends GroovyTestCase {
 
         def openedHand = new HashSet<Collection<ITile>>()
         def hiddenHand = new HashSet<Collection<ITile>>()
-        //hand is : 1b,2b,3b,3b,3b,3*east,3*red,3*green and it's a mahjong
+        //kong is : 1b,2b,3b,3b,3b,3*east,3*red,3*green and it's a mahjong
         assert TileComputer.isMahjong(hand,Collections.EMPTY_SET,Collections.EMPTY_SET)
     }
 
 
 
     void testFindMahjong3() {
-        def hand = []
+        def hand = [] as SortedSet
         [0,1,2].each{
             hand << new TileSuitBamboo(it,1)<< new TileSuitBamboo(it,2)<< new TileSuitBamboo(it,3)
         }
@@ -148,7 +146,7 @@ class TileComputerTest extends GroovyTestCase {
         hand << new TileSuitBamboo(3,3)<< new TileSuitBamboo(0,4)<< new TileSuitBamboo(0,5)
 
 
-        //hand is : 1b,2b,3b,1b,2b,3b,1b,2b,3b,3b,4b,5b,red*2
+        //kong is : 1b,2b,3b,1b,2b,3b,1b,2b,3b,3b,4b,5b,red*2
         Collection<ITile> mahjong = TileComputer.findMahjong(hand,4)
         assert mahjong
         def int count3 = 0
@@ -163,14 +161,14 @@ class TileComputerTest extends GroovyTestCase {
 
     void testIsMahjong2() {
         //extreme case
-        def openedHand = []
+        def openedHand = [] as Collection<SortedSet>
        
         openedHand << [ [] << new TileHonorEast(0) << new TileHonorEast(1) << new TileHonorEast(2) << new TileHonorEast(3)]
         openedHand << [ [] << new TileHonorRed(0)  << new TileHonorRed(1)  << new TileHonorRed(2)  << new TileHonorRed(3)]
         openedHand << [ [] << new TileHonorSouth(0)<< new TileHonorSouth(1)<< new TileHonorSouth(2)<< new TileHonorSouth(3)]
         openedHand << [ [] << new TileHonorNorth(0)<< new TileHonorNorth(1)<< new TileHonorNorth(2)<< new TileHonorNorth(3)]
 
-        def hand = [] << new TileHonorWest(0) << new TileHonorWest(1)
+        def hand = []  << new TileHonorWest(0) << new TileHonorWest(1) as SortedSet
         assert TileComputer.isMahjong(hand,Collections.EMPTY_SET,openedHand)
     }
 

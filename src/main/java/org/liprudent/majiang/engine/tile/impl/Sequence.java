@@ -39,13 +39,13 @@ import org.liprudent.majiang.engine.tile.ITileSuit;
  * 判断顺子 1,2,3筒  2,3,4筒
  * @author David Kong
  */
-public class Chow {
+public class Sequence {
 
     private ITileSuit start;
     private Collection<ITileSuit> col2 = new ArrayList<ITileSuit>(4);
     private Collection<ITileSuit> col3 = new ArrayList<ITileSuit>(4);
 
-    Chow(ITileSuit startTile) {
+    Sequence(ITileSuit startTile) {
         start = startTile;
     }
 
@@ -61,7 +61,7 @@ public class Chow {
         }
     }
 
-    boolean isChow() {
+    boolean isSequence() {
         return start != null && col2.size() > 0 && col3.size() > 0;
     }
 

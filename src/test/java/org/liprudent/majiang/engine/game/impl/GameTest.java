@@ -30,9 +30,6 @@ import static org.unitils.util.ReflectionUtils.getFieldValue;
 import static org.unitils.util.ReflectionUtils.getFieldWithName;
 
 import java.util.Collection;
-
-import junit.framework.Assert;
-
 import org.junit.Test;
 import org.liprudent.majiang.engine.event.IEvent;
 import org.liprudent.majiang.engine.event.IEventLogger;
@@ -63,12 +60,12 @@ public class GameTest {
 		final Collection<IPlayer> players = getFieldValue(game,
 				getFieldWithName(Game.class, "players", false));
 		for (final IPlayer player : players) {
-			Assert.assertNotNull(player.getWind());
-			Assert.assertNotNull(player.getNext());
-			Assert.assertNotNull(player.getPrevious());
-			Assert.assertEquals(player.getNext().getPrevious(), player);
-			Assert.assertEquals(player.getPrevious().getNext(), player);
-			Assert.assertEquals(player.getWind().getNextWind(), player
+			assertNotNull(player.getWind());
+			assertNotNull(player.getNext());
+			assertNotNull(player.getPrevious());
+			assertEquals(player.getNext().getPrevious(), player);
+			assertEquals(player.getPrevious().getNext(), player);
+			assertEquals(player.getWind().getNextWind(), player
 					.getNext().getWind());
 		}
 	}

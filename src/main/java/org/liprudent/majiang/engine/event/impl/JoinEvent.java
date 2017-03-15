@@ -3,11 +3,10 @@ package org.liprudent.majiang.engine.event.impl;
 import org.liprudent.majiang.engine.event.GameInfo;
 import org.liprudent.majiang.engine.event.IEvent;
 import org.liprudent.majiang.engine.event.IJoinEvent;
-import org.liprudent.majiang.engine.event.NoBrodcastEvent;
-import org.liprudent.majiang.engine.event.IEvent.KindOfEvent;
+import org.liprudent.majiang.engine.event.NoBroadcastEvent;
 import org.liprudent.majiang.engine.player.IPlayer.Wind;
 
-public class JoinEvent extends BasicEvent implements IJoinEvent,NoBrodcastEvent {
+public class JoinEvent extends BasicEvent implements IJoinEvent,NoBroadcastEvent {
 
 	final private GameInfo gameInfo;
 	final KindOfEvent kind = KindOfEvent.GAME_OPTIONS;

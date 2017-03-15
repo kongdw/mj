@@ -35,7 +35,7 @@ import org.liprudent.majiang.engine.player.IPlayer;
 import org.liprudent.majiang.engine.round.IRound;
 import org.liprudent.majiang.engine.round.State;
 
-public class TreatmentChooseActionChowTest {
+public class TreatmentChooseActionSequenceTest {
 	IRound round;
 
 	IPlayer next;

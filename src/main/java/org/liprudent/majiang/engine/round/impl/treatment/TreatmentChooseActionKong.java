@@ -42,7 +42,7 @@ public class TreatmentChooseActionKong extends
 	@Override
 	protected Collection<SortedSet<ITile>> findPartialFigure(
 			final SortedSet<ITile> hand) {
-		return TileSorter.findPong(hand);
+		return TileSorter.findTriplet(hand);
 	}
 
 	@Override

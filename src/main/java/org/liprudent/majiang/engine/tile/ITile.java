@@ -3,7 +3,9 @@ package org.liprudent.majiang.engine.tile;
 import java.io.Serializable;
 
 /**
- * 抽象的麻将牌
+ * 麻将牌接口
+ *
+ * @author David Kong
  */
 public interface ITile extends Comparable<ITile>, Serializable{
 	/**

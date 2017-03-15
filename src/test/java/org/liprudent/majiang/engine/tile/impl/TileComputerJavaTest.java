@@ -1,15 +1,14 @@
 package org.liprudent.majiang.engine.tile.impl;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import org.junit.Test;
+import org.liprudent.majiang.engine.game.impl.TestConstructHelper;
+import org.liprudent.majiang.engine.tile.ITile;
 
 import java.util.Collection;
 import java.util.Collections;
 
-import org.junit.Test;
-import org.liprudent.majiang.engine.game.impl.TestConstructHelper;
-import org.liprudent.majiang.engine.tile.ITile;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 /**
  * @author jerome

@@ -46,7 +46,7 @@ abstract public class AbstractTile implements ITile {
 
     @Override
     public String getUniqueId() {
-        return "family=" + family + "|id=" + id;
+        return String.format("%s(%d)", family.getChineseName(), id);
     }
 
     @Override

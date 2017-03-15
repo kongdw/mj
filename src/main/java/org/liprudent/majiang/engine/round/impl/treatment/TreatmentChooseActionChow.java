@@ -87,7 +87,7 @@ public class TreatmentChooseActionChow extends AbstractTreatmentChooseActionEat
 
 	@Override
 	public boolean specificValid() {
-		final boolean isSuit = TileComputer.isChow(suit);
+		final boolean isSuit = TileComputer.isSequence(suit);
 		final boolean haveTwo = checkPlayerHaveTwoTilesOfTheSuit();
 		final boolean isGoodState = player.getState() == State.CHOOSE_ACTION;
 		final boolean isNext = player.getPrevious() == current;
@@ -96,7 +96,7 @@ public class TreatmentChooseActionChow extends AbstractTreatmentChooseActionEat
 		&& oneTileIsThrowedAndNotOwned;
 		if(!specificValid){
 			Map<String,Boolean> toPrint = Maps.newHashMap();
-			toPrint.put("is it a Chow? - suit : " + suit,isSuit);
+			toPrint.put("is it a Sequence? - suit : " + suit,isSuit);
 			toPrint.put("player has 2 tiles? - hand : " + getPlayer().getTiles().getConcealedHand(), haveTwo);
 			toPrint.put("player state is CHOOSE_ACTION?", isGoodState);
 			toPrint.put("player is next of current?", isNext);

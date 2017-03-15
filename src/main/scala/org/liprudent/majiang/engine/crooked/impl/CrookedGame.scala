@@ -58,8 +58,8 @@ import scala.collection.JavaConversions._
   
 }
 
-class CrookedRound(crookedWall: List[ITile], currentPlayer: IPlayer) extends Round(currentPlayer: IPlayer) with RoundInit{
-  override lazy val tileSet = new CrookedTileSets(crookedWall)
+class CrookedRound(crookedWall: List[ITile], currentPlayer: IPlayer) extends Round(currentPlayer: IPlayer){
+  lazy val tileSets = new CrookedTileSets(crookedWall)
 }
 
 class CrookedTileSets(crookedTiles:List[ITile]) extends TileSets {

@@ -34,13 +34,13 @@ abstract public class TileComputer {
      * 查询所有可用组合
      *
      * @param hand
-     * @return all Kong, Pong, Chow
+     * @return all Kong, Pong, Sequence
      */
     private static Collection<Collection<ITile>> findAllCombis(final SortedSet<ITile> hand) {
         final Collection<Collection<ITile>> ret = new HashSet<Collection<ITile>>();
         ret.addAll(TileSorter.findKong(hand));
-        ret.addAll(TileSorter.findPong(hand));
-        ret.addAll(TileSorter.findChow(hand));
+        ret.addAll(TileSorter.findTriplet(hand));
+        ret.addAll(TileSorter.findSequence(hand));
         ret.addAll(TileSorter.findPair(hand));
         return ret;
     }
@@ -120,27 +120,27 @@ abstract public class TileComputer {
     }
 
     /**
-     * @param kong Collection of tile
+     * @param tiles Collection of tile
      * @return true if kong is really a kong, false otherwise
      */
-    public static final boolean isKong(final Collection<ITile> kong) {
-        return TileComputer.isSimilar(kong, 4);
+    public static boolean isKong(final Collection<ITile> tiles) {
+        return TileComputer.isSimilar(tiles, 4);
     }
 
     /**
-     * @param pong Collection of tile
+     * @param tiles Collection of tile
      * @return true if kong is really a kong, false otherwise
      */
-    public static final boolean isPong(final Collection<ITile> pong) {
-        return TileComputer.isSimilar(pong, 3);
+    public static boolean isTriplet(final Collection<ITile> tiles) {
+        return TileComputer.isSimilar(tiles, 3);
     }
 
-    public static final boolean isChow(final Collection<ITile> chow) {
-        return TileComputer.isSuit(chow, 3);
+    public static boolean isSequence(final Collection<ITile> tiles) {
+        return TileComputer.isSequence(tiles, 3);
     }
 
-    public static final boolean isPair(final Collection<ITile> pair) {
-        return TileComputer.isSimilar(pair, 2);
+    public static boolean isPair(final Collection<ITile> tiles) {
+        return TileComputer.isSimilar(tiles, 2);
     }
 
     /**
@@ -203,8 +203,7 @@ abstract public class TileComputer {
     /**
      * This method seems complex: TODO refactoring: use treeset?
      */
-    private static boolean isSuit(final Collection<ITile> tiles,
-                                  final int suitLength) {
+    public static boolean isSequence(final Collection<ITile> tiles, final int suitLength) {
         final boolean isSuit = tiles != null && tiles.size() == suitLength;
         if (!isSuit) {
             return false;

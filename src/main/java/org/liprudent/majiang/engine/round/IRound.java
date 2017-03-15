@@ -8,7 +8,7 @@ import org.liprudent.majiang.engine.tile.ITileSets;
 
 /**
  * A round is ending when no tiles left in the wall.
- *  回合
+ *  一局
  * @author jerome
  * 
  */

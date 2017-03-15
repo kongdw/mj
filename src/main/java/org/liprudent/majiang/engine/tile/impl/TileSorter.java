@@ -19,14 +19,23 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 /**
- * @author jerome
+ * @author David Kong
  */
 public abstract class TileSorter {
 
     private static Logger LOG = LoggerFactory.getLogger(TileSorter.class);
 
-    static Collection<SortedSet<ITile>> constructAllCombis(
-            final Collection<SortedSet<ITile>> list, final int sizeOfCombis) {
+    private TileSorter() {
+    }
+
+    /**
+     * 构造所有可能的组合形式
+     *
+     * @param list
+     * @param sizeOfCombis
+     * @return
+     */
+    static Collection<SortedSet<ITile>> constructAllCombis(final Collection<SortedSet<ITile>> list, final int sizeOfCombis) {
         if (list.size() == 0) {
             return null;
         }
@@ -53,56 +62,64 @@ public abstract class TileSorter {
         return new TreeSet<ITile>(CollectionUtils.union(c1, c2));
     }
 
-    private TileSorter() {
-    }
 
     public static List<SortedSet<ITile>> findKong(final SortedSet<ITile> hand) {
         return findSimilar(hand, 4);
     }
 
     /**
-     * @param hand
-     * @return
+     * 查询手牌中的所有刻子
+     * @param hand 手牌
+     * @return 刻子列表
      */
-    public static List<SortedSet<ITile>> findPong(final SortedSet<ITile> hand) {
-        LOG.debug("findPong - input:" + hand);
-        List<SortedSet<ITile>> pongs = findSimilar(hand, 3);
-        LOG.debug("found : " + pongs);
-        return pongs;
-
+    public static List<SortedSet<ITile>> findTriplet(final SortedSet<ITile> hand) {
+        LOG.debug("findTriplet - input:" + hand);
+        List<SortedSet<ITile>> triplet = findSimilar(hand, 3);
+        LOG.debug("found : " + triplet);
+        return triplet;
     }
 
-    public static List<SortedSet<ITile>> findPair(
-            final SortedSet<ITile> hand) {
+    /**
+     * 查询手牌中所有对子
+     * @param hand 手牌
+     * @return 对子列表
+     */
+    public static List<SortedSet<ITile>> findPair(final SortedSet<ITile> hand) {
         return findSimilar(hand, 2);
     }
 
-    public static List<Collection<ITile>> findChow(final Collection<ITile> hand) {
+    /**
+     * 查询手牌中的所有顺子
+     * @param hand 手牌
+     * @return  顺子列表
+     */
+    public static List<Collection<ITile>> findSequence(final Collection<ITile> hand) {
         final List<Collection<ITile>> ret = new ArrayList<Collection<ITile>>();
         // hand filtered with only suit tile
         final Collection<ITileSuit> onlyTileSuit = filter(hand);
 
         for (final ITileSuit tile : onlyTileSuit) {
             // this collection maybe a collection of suits :
-            final Chow chow = new Chow(tile);
+            final Sequence sequence = new Sequence(tile);
             for (final ITileSuit other : onlyTileSuit) {
-                chow.add(other);
+                sequence.add(other);
             }
-            if (chow.isChow()) {
-                ret.addAll(chow.expand());
+            if (sequence.isSequence()) {
+                ret.addAll(sequence.expand());
             }
         }
         return ret;
     }
 
     /**
-     * @param hand
+     * 查询手牌中的花色一样的牌
+     * @param hand      手牌
      * @param nbSimilar Number of similar tiles
      * @return
      */
     static List<SortedSet<ITile>> findSimilar(final SortedSet<ITile> hand, final int nbSimilar) {
 
-        Map<Integer, SortedSet<ITile>> handSortedByCloneValue = new HashMap<Integer, SortedSet<ITile>>(hand.size());
+        Map<Integer, SortedSet<ITile>> handSortedByCloneValue = new HashMap<>(hand.size());
         for (ITile tile : hand) {
             Integer cloneValue = tile.getCloneValue();
             if (handSortedByCloneValue.get(cloneValue) == null) {
@@ -120,8 +137,7 @@ public abstract class TileSorter {
         }
 
         final List<SortedSet<ITile>> ret = new LinkedList<SortedSet<ITile>>();
-        for (final SortedSet<ITile> sortedSet : handSortedByCloneValueWithAtLeastNbSimilar
-                .values()) {
+        for (final SortedSet<ITile> sortedSet : handSortedByCloneValueWithAtLeastNbSimilar.values()) {
             if (sortedSet.size() == nbSimilar) {
                 ret.add(sortedSet);
             } else if (sortedSet.size() > nbSimilar) {

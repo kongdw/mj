@@ -6,8 +6,9 @@ import java.util.SortedSet;
 
 /**
  * This interface contains all sets of tiles we have to manage during a round
- * 麻将牌集合，每局生成新的实例
+ * 麻将牌集合
  *
+ * @author David Kong
  */
 public interface ITileSets extends Serializable {
 

@@ -1,73 +1,73 @@
+/*
 package org.liprudent.majiang.engine.round.impl
 
-import org.liprudent.majiang.engine.game.IGame
-import java.io.IOException
-import java.io.ObjectInputStream
-import org.liprudent.majiang.engine.round.Scoring
+import java.io.{IOException, ObjectInputStream}
 import java.util.Observable
+
 import org.liprudent.majiang.engine.event.KindOfWall
-import org.liprudent.majiang.engine.player.IPlayer
-import org.liprudent.majiang.engine.round.{ IRound, Action }
-import org.liprudent.majiang.engine.round.State._
-import org.liprudent.majiang.engine.round.impl.treatment.{ TreatmentFactory, ITreatment }
-import org.liprudent.majiang.engine.tile.{ ITileSets, ITile }
-import org.liprudent.majiang.engine.tile.impl.TileSets
-import org.slf4j.LoggerFactory
-import scala.collection.JavaConversions._
 import org.liprudent.majiang.engine.event.KindOfWall.WALL
+import org.liprudent.majiang.engine.player.IPlayer
+import org.liprudent.majiang.engine.round.State._
+import org.liprudent.majiang.engine.round.impl.treatment.{ITreatment, TreatmentFactory}
+import org.liprudent.majiang.engine.round.{Action, IRound, Scoring}
+import org.liprudent.majiang.engine.tile.impl.TileSets
+import org.liprudent.majiang.engine.tile.{ITile, ITileSets}
+import org.slf4j.LoggerFactory
+
+import scala.collection.JavaConversions._
 
 trait RoundInit {
 
   private val log = LoggerFactory.getLogger("RoundInit")
 
   /**
-   * Contains all the tiles of the game
-   * NOTE: must be overriden in mixed class
-   */
+    * Contains all the tiles of the game
+    * NOTE: must be overriden in mixed class
+    */
   val tileSet: ITileSets
 
   /**
-   * A turn consists in a player having a new tile.
-   * Then he can discard, kong or mahjong. 
-   * In the former case, the otherPlayers have to choose an action among kong, pung, chow, pass, or mahjong
-   */
+    * A turn consists in a player having a new tile.
+    * Then he can discard, kong or mahjong.
+    * In the former case, the otherPlayers have to choose an action among kong, pung, chow, pass, or mahjong
+    */
   var currentTurn: Turn = null
 
   /**
-   * A round consists in several turns.
-   * When a turn ends, a new one is appended to this list.
-   */
+    * A round consists in several turns.
+    * When a turn ends, a new one is appended to this list.
+    */
   var turns: List[ITurn] = Nil
 
   /**
-   * The list of all players
-   * NOTE: must be overriden in mixed class
-   */
+    * The list of all players
+    * NOTE: must be overriden in mixed class
+    */
   val allPlayers: List[IPlayer]
 
   /**
-   * The player who'll start the round (ie: the one who first get an extra tile from the wall)
-   */
+    * The player who'll start the round (ie: the one who first get an extra tile from the wall)
+    */
   val eastPlayer: IPlayer
 
   /**
-   * Set the currentTurn and add it to the list of turns
-   */
+    * Set the currentTurn and add it to the list of turns
+    */
   protected def createNewTurn(currentPlayer: IPlayer, extraTile: ITile, source: KindOfWall) = {
     currentTurn = new Turn(currentPlayer, extraTile, source)
     turns = currentTurn :: turns
   }
 
   /**
-   * Give initial tiles in player's hand
-   */
+    * Give initial tiles in player's hand
+    */
   private def givePlayersFirstHand = {
     allPlayers.foreach(p => addTilesToPlayer(p, 13))
   }
 
   /**
-   * Extract tiles from the wall and transfers it to player's concealed hand
-   */
+    * Extract tiles from the wall and transfers it to player's concealed hand
+    */
   private def addTilesToPlayer(player: IPlayer, nbTiles: Int) = {
     val tiles = tileSet.giveTilesFromWalls(nbTiles)
     log.debug("giving " + tiles + " to " + player)
@@ -75,8 +75,8 @@ trait RoundInit {
   }
 
   /**
-   * Must be called by constructor's mixins
-   */
+    * Must be called by constructor's mixins
+    */
   protected def initRound = {
     // TODO do the round have to deal with this? Must be an assertion ...
     allPlayers.foreach(p => p.clearAllTiles)
@@ -89,9 +89,10 @@ trait RoundInit {
   }
 }
 
-@serializable class Round(val starter: IPlayer,val gameObserver:java.util.Observer) extends Observable with IRound with RoundInit {
+@serializable class Round(val starter: IPlayer, val gameObserver: java.util.Observer) extends Observable with IRound with RoundInit {
 
-  def this(starter: IPlayer) = this(starter,null)
+  def this(starter: IPlayer) = this(starter, null)
+
   private val log = LoggerFactory.getLogger("Round")
 
   initRound
@@ -110,13 +111,17 @@ trait RoundInit {
 	 * IRound overrides
 	 */
 
-  override def getCurrentPlayer: IPlayer = { currentTurn.currentPlayer }
+  override def getCurrentPlayer: IPlayer = {
+    currentTurn.currentPlayer
+  }
 
   override def getOtherPlayers: java.util.List[IPlayer] = {
     currentTurn.actionPlayers
   }
 
-  override def getTileSet: ITileSets = { tileSet }
+  override def getTileSet: ITileSets = {
+    tileSet
+  }
 
   override def handlePlayer(player: IPlayer, action: Action, tile: ITile) = {
     val treatment = TreatmentFactory.getInstance(player, action, this, tile)
@@ -135,7 +140,7 @@ trait RoundInit {
 
   override def getWinner: IPlayer = {
     assert(isEnd)
-    if(currentTurn.endRoundBecauseMahjong) currentTurn.getTurnWinner
+    if (currentTurn.endRoundBecauseMahjong) currentTurn.getTurnWinner
     else null
   }
 
@@ -160,25 +165,25 @@ trait RoundInit {
 
   override def doEnd: Boolean = {
     val ret = isEnd
-    log.debug("doEnd - isEnd = " +ret);
+    log.debug("doEnd - isEnd = " + ret);
     if (ret) {
       changePlayerStateWhenRoundEnd
       log.debug("doEnd - notify the game that round ends");
       setChanged
       notifyObservers(null)
-      
+
     }
     return ret
   }
-  
-  override def getScoring:Scoring = currentTurn.getScoring
+
+  override def getScoring: Scoring = currentTurn.getScoring
 
   /**
-   * Execute the treatment and modify some states if needed
-   */
+    * Execute the treatment and modify some states if needed
+    */
   private def processTreatment(treatment: ITreatment): Boolean = {
-    	
-	
+
+
     //this following statement may change the return value of end()
     val valid = currentTurn.processTreatment(treatment)
 
@@ -192,8 +197,8 @@ trait RoundInit {
   }
 
   /**
-   * Change current player and player's states then instan	ciate a new turn
-   */
+    * Change current player and player's states then instan	ciate a new turn
+    */
   private def initNewTurn = {
     // set the next current player and give a tile if needed
     val currentPlayer = getNewCurrentPlayer
@@ -223,8 +228,8 @@ trait RoundInit {
   }
 
   /**
-   * @return true if no tiles left or if someone won
-   */
+    * @return true if no tiles left or if someone won
+    */
   def isEnd: Boolean = {
     val emptyWall = tileSet.getWall.isEmpty
     if (emptyWall) log.debug("Wall is empty")
@@ -233,8 +238,8 @@ trait RoundInit {
   }
 
   /**
-   * This method will set ROUND_LOOSER/ROUND_WINNER to players
-   */
+    * This method will set ROUND_LOOSER/ROUND_WINNER to players
+    */
   protected def changePlayerStateWhenRoundEnd = {
     log.debug("changePlayerStateWhenRoundEnd")
     assert(isEnd == true)
@@ -247,13 +252,14 @@ trait RoundInit {
       }
     })
   }
-  
+
   @throws(classOf[IOException])
   private def readObject(in: ObjectInputStream): Unit = {
-	  in.defaultReadObject
-	  //add the observer
-	  //if(gameObserver == null) throw new IllegalStateException("The game observer can not be null");
-	  //addObserver(gameObserver);
+    in.defaultReadObject
+    //add the observer
+    //if(gameObserver == null) throw new IllegalStateException("The game observer can not be null");
+    //addObserver(gameObserver);
   }
 
 }
+*/
